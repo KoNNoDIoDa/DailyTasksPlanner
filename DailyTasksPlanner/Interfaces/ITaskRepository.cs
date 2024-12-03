@@ -11,6 +11,6 @@ namespace DailyTasksPlanner.Core.Interfaces
         TaskItem GetById(int Id);
         IEnumerable<TaskItem> GetAll();
         string GetTaskById(int Id);
-
+        void RefillTasks(IEnumerable<TaskItem> tasks);
     }
 }

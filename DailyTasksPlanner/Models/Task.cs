@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace DailyTasksPlanner.Core.Models
 {
     public class TaskItem
@@ -10,16 +12,19 @@ namespace DailyTasksPlanner.Core.Models
         public DateTime Finish { get; private set; }
         public bool IsCompleted { get; private set; }
 
-        public TaskItem(string name, string descrription, int priority, DateTime start, DateTime finish)
+        [JsonConstructor]
+        public TaskItem(int id, string name, string description, int priority, DateTime start, DateTime finish, bool isCompleted)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException("название задачи не может быть пустым");
             if (finish < start) throw new ArgumentException("Дата окончания не может быть раньше даты начала");
 
+            Id = id;
             Name = name;
-            Description = descrription;
+            Description = description;
             Priority = priority;
             Start = start;
             Finish = finish;
+            IsCompleted = isCompleted;
         }
         public void Update(string name, string descrription, int priority, DateTime start, DateTime finish)
         {

@@ -10,8 +10,21 @@ namespace DailyTasksPlanner.Core.Repositories
 
         public void Add(TaskItem task)
         {
-            task.Id = _globalId++;
-            _tasks[task.Id] = task;
+            while (true)
+            {
+                if (!_tasks.ContainsKey(_globalId))
+                {
+                    task.Id = _globalId++;
+                    _tasks[task.Id] = task;
+                    break;
+                }
+                else
+                {
+                    _globalId++;
+                }
+                
+            }
+            
         }
         public void Edit(TaskItem task) => _tasks[task.Id] = task;
         public void Delete(int Id) => _tasks.Remove(Id);
@@ -19,5 +32,13 @@ namespace DailyTasksPlanner.Core.Repositories
         public TaskItem GetById(int Id) => _tasks.TryGetValue(Id, out var task) ? task : null;
         public IEnumerable<TaskItem> GetAll() => _tasks.Values;
         public string GetTaskById(int Id) => _tasks[Id].ToString();
+        public void RefillTasks(IEnumerable<TaskItem> tasks)
+        {
+            if (tasks == null) return;
+            foreach (TaskItem task in tasks)
+            {
+                _tasks[task.Id] = task;
+            }
+        }
     }
 }

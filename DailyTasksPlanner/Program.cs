@@ -7,7 +7,8 @@ namespace DailyTasksPlanner
     internal class Program
     {
         private static readonly ITaskRepository repository = new TaskMemoryRepository();
-        private static readonly TaskService _taskService = new(repository);
+        private static readonly ISerializerService serializer = new JsonSerializationService(repository);
+        private static readonly TaskService _taskService = new(repository, serializer);
         static void Main(string[] args)
         {
 
